@@ -1,0 +1,92 @@
+{% extends "admin/base.html" %}
+{% block extrastyle %}
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+{% endblock %}
+
+
+{% block content %}
+<h2>Candidates</h2>
+
+<form action="" method="get">
+        {{ filter.form.as_p }}
+        <input type="submit" />
+</form>
+<hr>
+
+<form method="post" id="form1">
+  {% csrf_token %}
+  <button type="submit" form="form1" value="Submit">EXPORT</button>
+</form>
+<hr>
+    {% if filter.qs %}
+    <table id="cars">
+          <tr>
+                 <th>Name</th>
+                 <th>Email</th>
+                 <th>Phone</th>
+                 <th>Experience</th>
+                 <th>Current Designation</th>
+                 <th>Resume</th>
+
+          </tr>
+
+        {% for candidate in filter.qs %}
+            <tr>
+                <td>{{ candidate.name }}</td>
+                <td>{{ candidate.email }}</td>
+                <td>{{ candidate.phone }}</td>
+                <td>{{ candidate.experience }}</td>
+                <td><b>{{ candidate.current_designation }}</b></td>
+                <td>{{ candidate.resume }}</td>
+
+            </tr>
+        {% endfor %}
+    </table>
+
+            <!-- Pagination-->
+          <div class="pagination">
+          <span class="step-links">
+              {% if object_list.has_previous %}
+                  <a href="?page=1">&laquo; first</a> ||
+                  <a href="?page={{ object_list.previous_page_number }}">previous</a>
+              {% endif %}
+              <span class="current">
+                  Count- {{total_count}}
+              </span>
+              <span class="current">
+                  Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+              </span>
+
+              {% if object_list.has_next %}
+                  <a href="?page={{ object_list.next_page_number }}">next</a> ||
+                  <a href="?page={{ object_list.paginator.num_pages }}">last &raquo;</a>
+              {% endif %}
+          </span>
+      </div>
+{% else %}
+    <p>No Candidate found!!! :(</p>
+{% endif %}
+
+{% endblock %}
