@@ -5,6 +5,7 @@
 3. Run project
 4. go to URL '/candidate' to list the candidate and filters
 5. '/candidate' will also allow to export candidate data as CSV file.
+6. '/admin'- gives you the access for the Django admin part (create superuser by command- python manage.py createsuperuser)
 
 # Code Structure
 1. recruiter/views.py- Gives the logic for POST and GET method used to filter and Export the data.
